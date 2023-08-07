@@ -1,25 +1,18 @@
-#include <RCSwitch.h>
+#include "Gyver433.h"
 
-#define joyX A0
-#define joyY A1
+Gyver433_TX<2> tx;  // указали пин
 
-RCSwitch mySwitch = RCSwitch();
-
-int button=2;
 void setup() {
-  pinMode(3,OUTPUT);
-  Serial.begin(9600);
-  mySwitch.enableTransmit(2);
 }
- 
-void loop() {
- int xValue = analogRead(joyX);
- int yValue = analogRead(joyY);
- 
-  Serial.print(xValue);
-  Serial.print("\t");
-  Serial.println(yValue);
-  mySwitch.send("", 4);
 
-  delay(50);
+char data[] = "xx"; // строка для отправки
+byte count = 0; // счётчик для отправки
+
+void loop() {
+  // добавляем счётчик в строку
+  data[0] = 234 + '0';
+  data[1] = 98 + '0';
+  if (++count >= 100) count = 0;
+  tx.sendData(data);
+  delay(100);
 }
